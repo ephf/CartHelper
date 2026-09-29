@@ -2,7 +2,7 @@
 
 A shopping list helper for shopping across multiple stores
 
-> [!INFO]
+> [!NOTE]
 > `Main.java` file located at [src/com/carthelper/Main.java](src/com/carthelper/Main.java)
 
 ## Example Photos
