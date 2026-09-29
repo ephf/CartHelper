@@ -7,6 +7,9 @@ A shopping list helper for shopping across multiple stores
 
 ## Example Photos
 
+> [!IMPORTANT]
+> This is outdated now
+
 > Input
 
 <div align="center">
