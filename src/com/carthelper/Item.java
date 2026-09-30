@@ -1,11 +1,20 @@
 package com.carthelper;
 
-// Maybe use a counter
-public record Item(String name, int count) {
+public class Item {
+    public final String name;
+    public int count = 0;
+
+    public Item(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object other) {
-        return other instanceof Item && name.equals(((Item) other).name());
-    }
+        if(other instanceof final Item item && name.equals(((Item) other).name)) {
+            count = item.count;
+            return true;
+        }
 
+        return false;
+    }
 }

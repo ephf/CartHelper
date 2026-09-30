@@ -7,19 +7,20 @@ A shopping list helper for shopping across multiple stores
 
 ## Example Photos
 
-> [!IMPORTANT]
-> This is outdated now
-
-> Input
+Start by inputting the stores and items you want to add, you are allowed to add multiple of the same items to each store.
 
 <div align="center">
-    <img src="assets/input-example.png" height=300 />
+    <img src="assets/screenshot-1.png" height=300 />
 </div>
 
-> Output
+Then you can check off the items after heading to the store is says to head to,
 
 <div align="center">
-    <img src="assets/output-example.png" height=300 />
+    <img src="assets/screenshot-2.png" height=300 />
 </div>
 
-*Note: you cannot currently check off items yet*
+When you have checked off every item for one store, you can head to the next store:
+
+<div align="center">
+    <img src="assets/screenshot-3.png" height=300 />
+</div>

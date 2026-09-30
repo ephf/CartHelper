@@ -8,7 +8,7 @@ public record Store(String name, LinkedChain<Item> needed_items, LinkedChain<Ite
 
     @Override
     public boolean equals(Object other) {
-        return other instanceof Store && name.equals(((Store) other).name());
+        return other instanceof Store && name.equals(((Store) other).name);
     }
 
 }
