@@ -9,7 +9,7 @@ A shopping list helper for shopping across multiple stores
 
 Go to the [latest release](https://github.com/ephf/CartHelper/releases) to download the `.jar` file.
 
-You can run the program by running the `.jar` file, or by running the `java` command in the terminal:
+You can run the program by running the `java` command in the terminal:
 
 ```shell
 java -jar /path/to/carthelper.jar
