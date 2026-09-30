@@ -29,6 +29,8 @@ public class Main {
 
             System.out.println("Type the items you want to add to the list \33[3;90m(press enter if you are done)\33[0m");
             while(true) {
+                System.out.print("\t\33[90m( )\33[0m  ");
+
                 final String item_name = scanner.nextLine().trim();
                 if(item_name.isEmpty()) break;
 
@@ -51,7 +53,7 @@ public class Main {
                     + " \33[0;3;90m(press enter when you are there)\33[0m");
             scanner.nextLine();
 
-            while(!store.needed_items().isEmpty()) {
+            while(true) {
                 System.out.println("\33[1;36m" + store.name() + " List\33[0m");
 
                 for(final Item item : store.needed_items().toArray(new Item[store.needed_items().size()])) {
@@ -61,6 +63,8 @@ public class Main {
                 for(final Item item : store.gotten_items().toArray(new Item[store.gotten_items().size()])) {
                     System.out.println("\t\33[1;31m(x)\33[0;90m  " + item.name + "\33[0m");
                 }
+
+                if(store.needed_items().isEmpty()) break;
 
                 System.out.print("\n(type the item you want to remove) ");
                 while(true) {
