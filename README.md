@@ -68,4 +68,4 @@ and saving/loading the list.
 | `Main.java` | Tested | Wrote | Reviewed | Reviewed |
 | `Store.java` | Wrote | Revised | Reviewed | Tested |
 | `Item.java` | Reviewed | Revised | Tested | Wrote |
-| `LinkedChain.java` | Reviewed | Tested | Tested | Revised |
+| `LinkedChain.java` | Reviewed | Reviewed | Tested | Revised |
