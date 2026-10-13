@@ -62,9 +62,10 @@ We are dropping any other stretch goals to focus on the MVP.
 What new tests will we need? Tests for mixed-case duplicates, blank names, removing items, 
 and saving/loading the list.
 
-Attribution
-File	            Aneesh     Grant     Shafiur     Seth
-Main.java	        Tested	   Wrote	 Reviewed	 Reviewed
-Store.java	        Wrote	   Revised   Reviewed	 Tested
-Item.java	        Reviewed   Revised   Tested      Wrote
-LinkedChain.java	Reviewed   Tested	 Tested	     Revised
+## Attribution
+| File | Aneesh | Grant | Shafiur | Seth |
+| --- | --- | --- | --- | --- |
+| `Main.java` | Tested | Wrote | Reviewed | Reviewed |
+| `Store.java` | Wrote | Revised | Reviewed | Tested |
+| `Item.java` | Reviewed | Revised | Tested | Wrote |
+| `LinkedChain.java` | Reviewed | Tested | Tested | Revised |
