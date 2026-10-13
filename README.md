@@ -50,8 +50,9 @@ by simulating user input. Saving the list between runs is still open.
 What doesn't work yet? Names are case sensitive, blank names with spaces are not rejected, and the user 
 cannot remove an item they added by mistake.
 
-* Next Steps
+## Next Steps
 What is left to finish the MVP?
+
 - Make names case insensitive
 - Reject blank names
 - Let the user remove an item before shopping
