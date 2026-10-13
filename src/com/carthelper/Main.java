@@ -13,7 +13,7 @@ public class Main {
             if(once) {
                 System.out.println("What store are you shopping at? \33[3;90m(press enter if you are done)\33[0m");
             } else {
-                System.out.println("What store are you shopping at next?");
+                System.out.println("What store are you shopping at next? \33[3;90m(press enter if you are done adding stores)\33[0m");
             }
 
             final String store_name = scanner.nextLine().trim();
