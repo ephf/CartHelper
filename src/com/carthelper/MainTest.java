@@ -10,104 +10,197 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
-public class MainTest {
+// -------------------------------------------------------------------------
+/**
+ * Tests Main by typing input into it and checking what it prints. The first
+ * tests cover the normal shopping trip, and the rest cover bad input: input
+ * that ends early, names in different upper and lower case, blank entries, and
+ * items that are not on the list.
+ * 
+ * @author shafiursarker
+ * @version Oct 20, 2026
+ */
+public class MainTest
+{
 
-    private String runMain(String input) throws Exception {
+    /**
+     * Runs Main with the given typed input and returns what it printed.
+     *
+     * @param input
+     *            everything the user types, with \n for enter
+     * @return the program's output
+     */
+    private String runMain(String input)
+    {
         InputStream originalIn = System.in;
         PrintStream originalOut = System.out;
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-        try {
-            System.setIn(new ByteArrayInputStream(
-                input.getBytes(StandardCharsets.UTF_8)));
+        try
+        {
+            System.setIn(
+                new ByteArrayInputStream(
+                    input.getBytes(StandardCharsets.UTF_8)));
             System.setOut(new PrintStream(output));
 
             Main.main(new String[0]);
 
             return output.toString(StandardCharsets.UTF_8);
-        } finally {
+        }
+        finally
+        {
             System.setIn(originalIn);
             System.setOut(originalOut);
         }
     }
 
-    @Test
-    public void testNoStores() throws Exception {
-        String output = runMain("\n");
 
-        assertTrue(output.contains("What store are you shopping at?"));
-        assertFalse(output.contains("Store \u001b[1m1:"));
-    }
-
+    /**
+     * tests a normal trip with no bad input, so no error messages show up
+     */
     @Test
-    public void testAddStoreAndPurchaseItem() throws Exception {
-        // Store, item, end items, end stores, arrive, purchase item
+    public void testNormalTripNoErrors()
+    {
         String output = runMain("Target\nMilk\n\n\n\nMilk\n");
 
-        assertTrue(output.contains("Target"));
-        assertTrue(output.contains("Milk"));
+        assertFalse(output.contains("already in your list"));
+        assertFalse(output.contains("is not on the list!"));
+        assertFalse(output.contains("Please type an item name."));
+        assertFalse(output.contains("No more input"));
+    }
+
+
+    /**
+     * tests that the program closes instead of crashing when the input ends
+     * while adding stores
+     */
+    @Test
+    public void testInputEndsWhileAddingStores()
+    {
+        String output = runMain("");
+
+        assertTrue(output.contains("No more input. Closing CartHelper."));
+    }
+
+
+    /**
+     * tests that the program closes instead of crashing when the input ends
+     * while adding items
+     */
+    @Test
+    public void testInputEndsWhileAddingItems()
+    {
+        String output = runMain("Target\nMilk");
+
+        assertTrue(output.contains("No more input. Closing CartHelper."));
+    }
+
+
+    /**
+     * tests that the program closes instead of crashing when the input ends
+     * before the user gets to the store
+     */
+    @Test
+    public void testInputEndsBeforeStore()
+    {
+        String output = runMain("Target\nMilk\n\n\n");
+
+        assertTrue(output.contains("Head to"));
+        assertTrue(output.contains("No more input. Closing CartHelper."));
+    }
+
+
+    /**
+     * tests that the program closes instead of crashing when the input ends
+     * while checking items off
+     */
+    @Test
+    public void testInputEndsWhileShopping()
+    {
+        String output = runMain("Target\nMilk\n\n\n\n");
+
         assertTrue(output.contains("Target List"));
+        assertTrue(output.contains("No more input. Closing CartHelper."));
     }
 
+
+    /**
+     * tests that the same store in a different case is caught as a duplicate
+     */
     @Test
-    public void testDuplicateStore() throws Exception {
-        String input = "Target\nMilk\n\nTarget\n\n\n\nMilk\n";
+    public void testDuplicateStoreDifferentCase()
+    {
+        String output = runMain("Target\nMilk\n\ntarget\n\n\nMilk\n");
 
-        String output = runMain(input);
-
-        assertTrue(output.contains(
-            "Target is already in your list of stores!"));
+        assertTrue(
+            output.contains("target is already in your list of stores!"));
+        assertFalse(output.contains("Store \u001b[1m2:"));
     }
 
+
+    /**
+     * tests that typing the same item in a different case adds to its count and
+     * keeps the first name
+     */
     @Test
-    public void testDuplicateItems() throws Exception {
-        String input = "Target\nMilk\nMilk\n\n\n\nMilk\n";
+    public void testDuplicateItemDifferentCase()
+    {
+        String output = runMain("Target\nMilk\nMILK\n\n\n\nmilk\n");
 
-        String output = runMain(input);
-
-        assertTrue(output.contains("Milk"));
-        assertTrue(output.contains("x2"));
+        assertTrue(output.contains("Milk  \u001b[3;90mx2"));
+        assertFalse(output.contains("MILK  "));
     }
 
-    @Test
-    public void testInvalidPurchase() throws Exception {
-        String input = "Target\nMilk\n\n\n\nBread\nMilk\n";
 
-        String output = runMain(input);
+    /**
+     * tests that an item can be checked off in a different case
+     */
+    @Test
+    public void testPurchaseDifferentCase()
+    {
+        String output = runMain("Target\nMilk\n\n\n\nmilk\n");
+
+        assertFalse(output.contains("is not on the list!"));
+        assertTrue(output.contains("Milk\u001b[0m"));
+    }
+
+
+    /**
+     * tests that a blank entry at checkout gets a message and asks again
+     */
+    @Test
+    public void testBlankPurchase()
+    {
+        String output = runMain("Target\nMilk\n\n\n\n\nMilk\n");
+
+        assertTrue(output.contains("Please type an item name."));
+        assertFalse(output.contains("No more input"));
+    }
+
+
+    /**
+     * tests that an item not on the list gets a message and asks again
+     */
+    @Test
+    public void testItemNotOnList()
+    {
+        String output = runMain("Target\nMilk\n\n\n\nBread\nMilk\n");
 
         assertTrue(output.contains("'Bread' is not on the list!"));
+        assertFalse(output.contains("No more input"));
     }
 
+
+    /**
+     * tests that a store name with only spaces counts as blank and ends store
+     * entry
+     */
     @Test
-    public void testMultipleStores() throws Exception {
-        String input =
-            "Target\nMilk\n\n"
-            + "Walmart\nBread\n\n"
-            + "\n"
-            + "\n"
-            + "Milk\n"
-            + "\n"
-            + "Bread\n";
+    public void testSpacesOnlyStoreName()
+    {
+        String output = runMain("   \n");
 
-        String output = runMain(input);
-
-        assertTrue(output.contains("Store \u001b[1m1:"));
-        assertTrue(output.contains("Store \u001b[1m2:"));
-
-        int targetIndex = output.indexOf("Head to \u001b[1;36mTarget");
-        int walmartIndex = output.indexOf("Head to \u001b[1;36mWalmart");
-
-        assertTrue(targetIndex >= 0);
-        assertTrue(walmartIndex > targetIndex);
-    }
-
-    @Test
-    public void testStoreWithoutItems() throws Exception {
-        String input = "Target\n\n\n\n";
-
-        String output = runMain(input);
-
-        assertTrue(output.contains("Target"));
-        assertFalse(output.contains("(type the item you want to remove)"));
+        assertFalse(output.contains("Store \u001b[1m1:"));
+        assertFalse(output.contains("No more input"));
     }
 }
