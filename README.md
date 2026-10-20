@@ -11,11 +11,7 @@ A shopping list helper for shopping across multiple stores.
 Compile the main Java classes:
 
 ```bash
-javac -d src \
-  src/com/carthelper/Main.java \
-  src/com/carthelper/LinkedChain.java \
-  src/com/carthelper/Store.java \
-  src/com/carthelper/Item.java
+javac -d src src/com/carthelper/Main.java src/com/carthelper/LinkedChain.java src/com/carthelper/Store.java src/com/carthelper/Item.java
 ```
 
 ### 2. Run the program

@@ -68,6 +68,10 @@ public class Main
                 if (item_name.isEmpty())
                     break;
 
+                if(item_name.equals("undo") || item_name.equals("UNDO")){
+                    System.out.println("undo and UNDO are not valid elements of list. Please input a valid element.");
+                    continue;
+                }
                 // typing the same item again adds 1 to its count
                 final Item existing = findItem(store.needed_items(), item_name);
                 if (existing != null)
@@ -119,7 +123,7 @@ public class Main
                 if (store.needed_items().isEmpty())
                     break;
 
-                System.out.print("\n(type the item you want to remove) ");
+                System.out.print("\nType the item you want to remove (type undo to revert last removal): ");
                 while (true)
                 {
                     if (!scanner.hasNextLine())
@@ -137,15 +141,32 @@ public class Main
 
                     final Item bought_item =
                         findItem(store.needed_items(), bought_name);
+                    
                     if (bought_item == null)
                     {
                         System.out.print(
-                            "'" + bought_name + "' is not on the list! ");
+                            "'" + bought_name + "' is not on the list! Type a valid item to remove: ");
                         continue;
                     }
 
+                    if(bought_item.name.equals("undo"))
+                    {
+                        // System.out.println("We came here 1");
+                        if(!store.gotten_items().isEmpty()){
+                            // System.out.println("We came here 2");
+                            Item rmItem = store.gotten_items().remove();
+                            store.needed_items().add(rmItem); 
+                            // System.out.println("You added back " + rmItem.name + " into your list. \nWhat Item would you like to remove?");
+                        }
+                            // } else {
+                        //     System.out.println("You have not removed any elements yet! \nWhat Item would you like to remove?");
+                        // }
+                        break;
+                    }
+                    
                     store.needed_items().remove(bought_item);
                     store.gotten_items().add(bought_item);
+                    // System.out.println("Line 149; gotten_items() is: " + store.gotten_items().toString());
                     break;
                 }
             }
@@ -194,6 +215,9 @@ public class Main
             {
                 return item;
             }
+        }
+        if(name.equals("undo") || name.equals("UNDO")){
+            return new Item("undo");
         }
         return null;
     }

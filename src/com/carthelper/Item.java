@@ -34,4 +34,9 @@ public class Item
 
         return false;
     }
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }
